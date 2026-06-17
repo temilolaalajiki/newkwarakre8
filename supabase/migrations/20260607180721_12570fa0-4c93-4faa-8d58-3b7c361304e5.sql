@@ -1,0 +1,1 @@
+DELETE FROM public.registrations WHERE id = 'dc00603a-b9e9-407a-85e1-4aaa88e1b3e4';
