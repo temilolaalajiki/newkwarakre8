@@ -64,11 +64,20 @@ export const getAdminDashboard = createServerFn({ method: "POST" })
 
 const { data: rows, error } = await supabaseAdmin
   .from("registrations")
-  .select("*")
+  .select(
+    "id, full_name, phone_number, email, state_lga, creative_interest, class_batch, age_range, social_handle, registration_timestamp"
+  )
+  .order("registration_timestamp", { ascending: false })
   .limit(5);
 
-console.log("rows:", rows);
+console.log("rows count:", rows?.length);
 console.log("error:", error);
+
+return {
+  ok: true as const,
+  registrations: rows ?? [],
+  capacity: BATCH_CAPACITY,
+};
 
 // return {
 //   ok: true as const,

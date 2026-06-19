@@ -35,6 +35,7 @@ function AdminPage() {
   const refresh = async () => {
     if (!password) return;
     const res = await fetchDashboard({ data: { password } });
+    console.log("ADMIN RESPONSE:", res);
     if (res.ok) setData({ registrations: res.registrations, capacity: res.capacity });
   };
 
