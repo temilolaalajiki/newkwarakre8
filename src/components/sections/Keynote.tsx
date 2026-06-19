@@ -54,24 +54,15 @@ export function Keynote() {
             <div className="relative overflow-hidden rounded-3xl glass shadow-gold">
               <div className="aspect-video w-full bg-muted">
                 {inView && (
-                  // <video
-                  //   ref={videoRef}
-                  //   src={videoAsset.url}
-                  //   controls
-                  //   autoPlay
-                  //   muted
-                  //   loop
-                  //   preload="metadata"
-                  //   playsInline
-                  //   className="h-full w-full object-cover"
-                  // />
+              
 <video
-  src="/videos/minister-keynote.mp4"
+  src="/videos/ministerkeynote.mp4"
   controls
   autoPlay
   muted
   loop
   playsInline
+  className="h-full w-full object-cover"
 />
                 )}
               </div>
