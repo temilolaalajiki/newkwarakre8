@@ -25,6 +25,7 @@ export const getAdminDashboard = createServerFn({ method: "POST" })
     if (!expected || data.password !== expected) {
       return { ok: false as const, error: "Invalid password" };
     }
+
     return {
   ok: true as const,
   registrations: [],
@@ -35,25 +36,24 @@ export const getAdminDashboard = createServerFn({ method: "POST" })
     // make sure dashboard stats reflect every registration.
     const PAGE_SIZE = 1000;
     const all: Registration[] = [];
-    for (let from = 0; ; from += PAGE_SIZE) {
-      const { data: rows, error } = await supabaseAdmin
-        .from("registrations")
-        .select(
-          "id, full_name, phone_number, email, state_lga, creative_interest, class_batch, age_range, social_handle, registration_timestamp",
-        )
-        .order("registration_timestamp", { ascending: false })
-        .range(from, from + PAGE_SIZE - 1);
+  try {
+  const { data: rows, error } = await supabaseAdmin
+    .from("registrations")
+    .select("id")
+    .limit(1);
 
-      if (error) {
-        console.error("admin registrations load failed", error);
-        return { ok: false as const, error: "Failed to load registrations" };
-      }
+  console.log("rows:", rows);
+  console.log("error:", error);
 
-      const batch = (rows ?? []) as Registration[];
-      all.push(...batch);
-      if (batch.length < PAGE_SIZE) break;
-      if (all.length >= 50000) break; // safety stop
-    }
+  return {
+    ok: true as const,
+    registrations: [],
+    capacity: BATCH_CAPACITY,
+  };
+} catch (err) {
+  console.error("SUPABASE QUERY FAILED:", err);
+  throw err;
+}
 
     return {
       ok: true as const,
