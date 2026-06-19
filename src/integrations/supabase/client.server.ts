@@ -22,13 +22,29 @@ console.log("SERVICE KEY EXISTS:", !!SUPABASE_SERVICE_ROLE_KEY);
     throw new Error(message);
   }
 
-  return createClient<Database>(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+  // return createClient<Database>(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+  //   auth: {
+  //     storage: undefined,
+  //     persistSession: false,
+  //     autoRefreshToken: false,
+  //   }
+  // });
+return createClient(
+  SUPABASE_URL,
+  SUPABASE_SERVICE_ROLE_KEY,
+  {
     auth: {
-      storage: undefined,
       persistSession: false,
       autoRefreshToken: false,
-    }
-  });
+      storage: undefined,
+    },
+    realtime: {
+      params: {
+        eventsPerSecond: 0,
+      },
+    },
+  }
+);
 }
 
 let _supabaseAdmin: ReturnType<typeof createSupabaseAdminClient> | undefined;
