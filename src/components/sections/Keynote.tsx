@@ -56,7 +56,7 @@ export function Keynote() {
                 {inView && (
               
 <video
-  src="/videos/ministerkeynote.mp4"
+  src="https://kwarakre8.netlify.app/video/ministerkeynote.mp4"
   controls
   autoPlay
   muted
