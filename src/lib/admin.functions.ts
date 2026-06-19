@@ -26,11 +26,11 @@ export const getAdminDashboard = createServerFn({ method: "POST" })
       return { ok: false as const, error: "Invalid password" };
     }
 
-    return {
-  ok: true as const,
-  registrations: [],
-  capacity: BATCH_CAPACITY,
-};
+//     return {
+//   ok: true as const,
+//   registrations: [],
+//   capacity: BATCH_CAPACITY,
+// };
 
     // Supabase Data API caps a single response at 1000 rows. Paginate to
     // make sure dashboard stats reflect every registration.
