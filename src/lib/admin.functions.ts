@@ -68,7 +68,7 @@ const { data: rows, error } = await supabaseAdmin
     "id, full_name, phone_number, email, state_lga, creative_interest, class_batch, age_range, social_handle, registration_timestamp"
   )
   .order("registration_timestamp", { ascending: false })
-  .limit(5);
+  .limit(2000);
 
 console.log("rows count:", rows?.length);
 console.log("error:", error);
