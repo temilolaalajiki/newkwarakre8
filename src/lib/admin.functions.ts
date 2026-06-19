@@ -64,7 +64,7 @@ export const getAdminDashboard = createServerFn({ method: "POST" })
 
 const { data: rows, error } = await supabaseAdmin
   .from("registrations")
-  .select("id")
+  .select("*")
   .limit(5);
 
 console.log("rows:", rows);
