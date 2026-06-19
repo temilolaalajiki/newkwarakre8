@@ -65,13 +65,13 @@ export function Keynote() {
                   //   className="h-full w-full object-cover"
                   // />
                   <video
-  src="/videos/minister-keynote.mp4"
+  src="/videos/ministerkeynote.mp4"
   controls
   autoPlay
   muted
   loop
   playsInline
-  className="h-full w-full object-cover"
+  // className="h-full w-full object-cover"
 />
                 )}
               </div>
