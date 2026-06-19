@@ -42,7 +42,7 @@ export const getAdminDashboard = createServerFn({ method: "POST" })
   //   .select("id")
   //   .limit(1);
 
-  for (let from = 0; ; from += PAGE_SIZE) {
+//   for (let from = 0; ; from += PAGE_SIZE) {
 //   const { data: rows, error } = await supabaseAdmin
 //     .from("registrations")
 //     .select(
@@ -64,17 +64,17 @@ export const getAdminDashboard = createServerFn({ method: "POST" })
 
 const { data: rows, error } = await supabaseAdmin
   .from("registrations")
-  .select("*")
+  .select("id")
   .limit(5);
 
 console.log("rows:", rows);
 console.log("error:", error);
 
-return {
-  ok: true as const,
-  registrations: rows ?? [],
-  capacity: BATCH_CAPACITY,
-};
+// return {
+//   ok: true as const,
+//   registrations: rows ?? [],
+//   capacity: BATCH_CAPACITY,
+// };
 
   // console.log("rows:", rows);
   // console.log("error:", error);
