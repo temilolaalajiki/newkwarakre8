@@ -4,6 +4,7 @@ import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { CLASS_NAMES, AGE_RANGES, REGISTRATION_CAP } from "@/lib/event";
 import { enqueueRegistrationConfirmationEmail } from "@/lib/registration.server";
 
+
 const RegistrationSchema = z.object({
   full_name: z.string().trim().min(1).max(120),
   phone_number: z.string().trim().min(5).max(30).regex(/^\d+$/, "Phone number must contain only digits"),
