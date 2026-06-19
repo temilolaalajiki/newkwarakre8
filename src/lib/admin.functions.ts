@@ -37,13 +37,33 @@ export const getAdminDashboard = createServerFn({ method: "POST" })
     const PAGE_SIZE = 1000;
     const all: Registration[] = [];
   try {
+  // const { data: rows, error } = await supabaseAdmin
+  //   .from("registrations")
+  //   .select("id")
+  //   .limit(1);
+
+  for (let from = 0; ; from += PAGE_SIZE) {
   const { data: rows, error } = await supabaseAdmin
     .from("registrations")
-    .select("id")
-    .limit(1);
+    .select(
+      "id, full_name, phone_number, email, state_lga, creative_interest, class_batch, age_range, social_handle, registration_timestamp",
+    )
+    .order("registration_timestamp", { ascending: false })
+    .range(from, from + PAGE_SIZE - 1);
 
-  console.log("rows:", rows);
-  console.log("error:", error);
+  if (error) {
+    console.error("admin registrations load failed", error);
+    return { ok: false as const, error: "Failed to load registrations" };
+  }
+
+  const batch = (rows ?? []) as Registration[];
+  all.push(...batch);
+  if (batch.length < PAGE_SIZE) break;
+  if (all.length >= 50000) break;
+}
+
+  // console.log("rows:", rows);
+  // console.log("error:", error);
 
   return {
     ok: true as const,
