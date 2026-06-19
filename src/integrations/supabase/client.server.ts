@@ -7,6 +7,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import ws from 'ws';
+import type { Database } from './types';
 
 function createSupabaseAdminClient() {
   const SUPABASE_URL = process.env.SUPABASE_URL;

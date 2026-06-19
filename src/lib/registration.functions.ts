@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import { CLASS_NAMES, AGE_RANGES } from "@/lib/event";
+import { CLASS_NAMES, AGE_RANGES, REGISTRATION_CAP } from "@/lib/event";
 import { enqueueRegistrationConfirmationEmail } from "@/lib/registration.server";
 
 const RegistrationSchema = z.object({
@@ -19,6 +19,20 @@ export const submitRegistration = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const emailLower = data.email.toLowerCase();
     const phone = data.phone_number.trim();
+
+    // Enforce the hard 2,000-participant cap before doing anything else.
+    const { count: totalCount, error: countError } = await supabaseAdmin
+      .from("registrations")
+      .select("*", { count: "exact", head: true });
+    if (countError) {
+      console.error("registration cap count failed", countError);
+      return { ok: false as const, error: "Could not complete registration. Please try again." };
+    }
+    if ((totalCount ?? 0) >= REGISTRATION_CAP) {
+      return { ok: false as const, error: "Registration is closed. We have reached our 2,000-participant cap." };
+    }
+
+
 
     // Pre-check for existing email or phone to return a friendly error.
     const { data: existing } = await supabaseAdmin
@@ -81,11 +95,14 @@ export const getClassCounts = createServerFn({ method: "GET" }).handler(async ()
   const { data, error } = await supabaseAdmin.rpc("get_class_counts");
   if (error) {
     console.error("get_class_counts failed", error);
-    return { counts: {} as Record<string, number> };
+    return { counts: {} as Record<string, number>, total: 0, isClosed: false };
   }
   const counts: Record<string, number> = {};
+  let total = 0;
   for (const row of (data ?? []) as Array<{ creative_interest: string; total: number }>) {
-    counts[row.creative_interest] = Number(row.total);
+    const n = Number(row.total);
+    counts[row.creative_interest] = n;
+    total += n;
   }
-  return { counts };
+  return { counts, total, isClosed: total >= REGISTRATION_CAP };
 });

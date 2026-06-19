@@ -38,3 +38,4 @@ export type ClassName = (typeof CLASSES)[number]["name"];
 export const AGE_RANGES = ["13–17", "18–24", "25–34", "35+"] as const;
 
 export const BATCH_CAPACITY = 50;
+export const REGISTRATION_CAP = 2000;
