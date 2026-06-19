@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import videoAsset from "@/assets/minister-keynote.mp4.asset.json";
+import keyNoteVideo from "@/assets/videos/ministerkeynote.mp4";
+// import videoAsset from "@/assets/minister-keynote.mp4.asset.json";
 
 export function Keynote() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -65,13 +66,13 @@ export function Keynote() {
                   //   className="h-full w-full object-cover"
                   // />
                   <video
-  src="/videos/ministerkeynote.mp4"
+  src={keyNoteVideo}
   controls
   autoPlay
   muted
   loop
   playsInline
-  // className="h-full w-full object-cover"
+  className="h-full w-full object-cover"
 />
                 )}
               </div>
