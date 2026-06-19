@@ -46,8 +46,11 @@ function AdminPage() {
       const res = await fetchDashboard({ data: { password } });
       if (!res.ok) setError(res.error);
       else setData({ registrations: res.registrations, capacity: res.capacity });
-    } catch {
-      setError("Something went wrong");
+    // } catch {
+      // setError("Something went wrong");
+     } catch (err: any) {
+  console.error(err);
+  setError(err?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
